@@ -7,6 +7,7 @@ const {connect} = require('./config/db');
 const {UserModel}=require('./models/application.model');
 const {authenticate} = require("./middlewares/authentication")
 const {appRouter} = require("./routes/application.route")
+const {AppModel} = require("./models/app.model")
 
 const app = express();
 app.use(express.json());
@@ -16,8 +17,9 @@ app.use(cors({
 
 require('dotenv').config()
 
-app.get('/',(req,res)=>{
-    res.send("welcome")
+app.get('/',async(req,res)=>{
+    const data = await AppModel.find()
+    res.send(data)
 })
 
 app.post("/signup", async(req,res)=>{
